@@ -1,0 +1,3 @@
+
+[pip.deps]
+fiftyone = ">=0.17"
