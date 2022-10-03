@@ -1,0 +1,3 @@
+module FiftyOneImageAnnotations
+
+end
