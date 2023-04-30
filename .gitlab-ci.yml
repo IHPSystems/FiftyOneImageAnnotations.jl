@@ -12,6 +12,10 @@ include:
     ref: v1.3.5
     file: /jobs/format.gitlab-ci.yaml
 
+analyze_package:
+  variables:
+    CI_JULIA_JET_TARGET_DEFINED_MODULES: "true"
+
 analyze_tests:
   variables:
     CI_JULIA_JET_TARGET_DEFINED_MODULES: "true"
