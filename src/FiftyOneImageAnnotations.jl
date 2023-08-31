@@ -1,7 +1,12 @@
 module FiftyOneImageAnnotations
 
+using GeometryBasics
 using ImageAnnotations
 using PythonCall
+
+export Classification, Detection, FiftyOneLabel, Polyline, Regression
+
+export Sample
 
 export ImageAnnotationDatasetImporter, ImageAnnotationDatasetType
 
@@ -20,6 +25,7 @@ include(joinpath(@__DIR__, "core", "collections.jl"))
 include(joinpath(@__DIR__, "core", "fields.jl"))
 include(joinpath(@__DIR__, "core", "frame.jl"))
 include(joinpath(@__DIR__, "core", "groups.jl"))
+include(joinpath(@__DIR__, "core", "labels.jl"))
 include(joinpath(@__DIR__, "core", "sample.jl"))
 include(joinpath(@__DIR__, "core", "view.jl"))
 include(joinpath(@__DIR__, "core", "dataset.jl"))

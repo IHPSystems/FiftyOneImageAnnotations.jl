@@ -1,4 +1,4 @@
-abstract type AbstractSampleCollection end
+abstract type AbstractSampleCollection <: AbstractImageAnnotationDataSet end
 
 has_classes(collection::AbstractSampleCollection, field_name::AbstractString) = Py(collection).has_field(field_name)
 

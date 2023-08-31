@@ -28,6 +28,11 @@ function Base.getproperty(dataset::Dataset, name::Symbol)
     if name in fieldnames(Dataset)
         return getfield(dataset, name)
     end
+    if name == :schema
+        return dataset.object.default_classes
+    elseif name == :annotated_images
+        return dataset
+    end
     return pyconvert(Any, getproperty(dataset.object, name))
 end
 
