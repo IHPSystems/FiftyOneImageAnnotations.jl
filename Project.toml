@@ -1,7 +1,7 @@
 name = "FiftyOneImageAnnotations"
 uuid = "a00f948b-584f-4068-8192-b9768bfe7837"
 authors = ["IHP Systems R&D <research@ihp.dk>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 ImageAnnotations = "76a96b56-f16f-11e8-3761-3967fdcf98d3"

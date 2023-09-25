@@ -6,10 +6,6 @@
 
 FiftyOneImageAnnotations provides a Julia interface to the [FiftyOne](https://voxel51.com/docs/fiftyone/) toolkit, that enables curating datasets, evaluating models, finding annotation mistakes, visualizing embeddings etc.
 
-## Limitations
-
-There is currently very little usable functionality, as focus so far has been on wrapping the [Dataset](https://github.com/voxel51/fiftyone/blob/develop/fiftyone/core/dataset.py) class.
-
 ## Caveats
 
 The embedded MongoDB process is left running after the Julia session is closed. Stop the process manually - or, preferable, [use an external MongoDB instance](https://docs.voxel51.com/user_guide/config.html#configuring-a-mongodb-connection).
