@@ -91,23 +91,33 @@ function rename_sample_field!(dataset::Dataset, field_name::AbstractString, new_
     return dataset.object.rename_sample_field(field_name, new_field_name)
 end
 
-rename_sample_fields!(dataset::Dataset, field_mapping::Dict{AbstractString, AbstractString}) = dataset.object.rename_sample_fields(field_mapping)
+function rename_sample_fields!(dataset::Dataset, field_mapping::Dict{AbstractString, AbstractString})
+    return dataset.object.rename_sample_fields(field_mapping)
+end
 
 function rename_frame_field!(dataset::Dataset, field_name::AbstractString, new_field_name::AbstractString)
     return dataset.object.rename_frame_field(field_name, new_field_name)
 end
 
-rename_frame_fields!(dataset::Dataset, field_mapping::Dict{AbstractString, AbstractString}) = dataset.object.rename_frame_fields(field_mapping)
+function rename_frame_fields!(dataset::Dataset, field_mapping::Dict{AbstractString, AbstractString})
+    return dataset.object.rename_frame_fields(field_mapping)
+end
 
 function clone_sample_field!(dataset::Dataset, field_name::AbstractString, new_field_name::AbstractString)
     return dataset.object.clone_sample_field(field_name, new_field_name)
 end
 
-clone_sample_fields!(dataset::Dataset, field_mapping::Dict{AbstractString, AbstractString}) = dataset.object.clone_sample_fields(field_mapping)
+function clone_sample_fields!(dataset::Dataset, field_mapping::Dict{AbstractString, AbstractString})
+    return dataset.object.clone_sample_fields(field_mapping)
+end
 
-clone_frame_field!(dataset::Dataset, field_name::AbstractString, new_field_name::AbstractString) = dataset.object.clone_frame_field(field_name, new_field_name)
+function clone_frame_field!(dataset::Dataset, field_name::AbstractString, new_field_name::AbstractString)
+    return dataset.object.clone_frame_field(field_name, new_field_name)
+end
 
-clone_frame_fields!(dataset::Dataset, field_mapping::Dict{AbstractString, AbstractString}) = dataset.object.clone_frame_fields(field_mapping)
+function clone_frame_fields!(dataset::Dataset, field_mapping::Dict{AbstractString, AbstractString})
+    return dataset.object.clone_frame_fields(field_mapping)
+end
 
 clear_sample_field!(dataset::Dataset, field_name::AbstractString) = dataset.object.clear_sample_field(field_name)
 
@@ -119,9 +129,13 @@ clear_frame_fields!(dataset::Dataset, field_names::Vector{AbstractString}) = dat
 
 delete_sample_field!(dataset::Dataset, field_name::AbstractString; kwargs...) = dataset.object.delete_sample_field(field_name; kwargs...)
 
-delete_sample_fields!(dataset::Dataset, field_names::Vector{AbstractString}; kwargs...) = dataset.object.delete_sample_fields(field_names; kwargs...)
+function delete_sample_fields!(dataset::Dataset, field_names::Vector{AbstractString}; kwargs...)
+    return dataset.object.delete_sample_fields(field_names; kwargs...)
+end
 
-remove_dynamic_sample_field!(dataset::Dataset, field_name::AbstractString; kwargs...) = dataset.object.remove_dynamic_sample_field(field_name; kwargs...)
+function remove_dynamic_sample_field!(dataset::Dataset, field_name::AbstractString; kwargs...)
+    return dataset.object.remove_dynamic_sample_field(field_name; kwargs...)
+end
 
 function remove_dynamic_sample_fields!(dataset::Dataset, field_names::Vector{AbstractString}; kwargs...)
     return dataset.object.remove_dynamic_sample_fields(field_names; kwargs...)
@@ -129,9 +143,13 @@ end
 
 delete_frame_field!(dataset::Dataset, field_name::AbstractString; kwargs...) = dataset.object.delete_frame_field(field_name; kwargs...)
 
-delete_frame_fields!(dataset::Dataset, field_names::Vector{AbstractString}; kwargs...) = dataset.object.delete_frame_fields(field_names; kwargs...)
+function delete_frame_fields!(dataset::Dataset, field_names::Vector{AbstractString}; kwargs...)
+    return dataset.object.delete_frame_fields(field_names; kwargs...)
+end
 
-remove_dynamic_frame_field!(dataset::Dataset, field_name::AbstractString; kwargs...) = dataset.object.remove_dynamic_frame_field(field_name; kwargs...)
+function remove_dynamic_frame_field!(dataset::Dataset, field_name::AbstractString; kwargs...)
+    return dataset.object.remove_dynamic_frame_field(field_name; kwargs...)
+end
 
 function remove_dynamic_frame_fields!(dataset::Dataset, field_names::Vector{AbstractString}; kwargs...)
     return dataset.object.remove_dynamic_frame_fields(field_names; kwargs...)
@@ -153,11 +171,15 @@ add_sample!(dataset::Dataset, sample::Sample; kwargs...) = dataset.object.add_sa
 
 add_samples!(dataset::Dataset, samples::Vector{Sample}; kwargs...) = dataset.object.add_samples(samples; kwargs...)
 
-add_collection!(dataset::Dataset, sample_collection::AbstractSampleCollection; kwargs...) = dataset.object.add_collection(sample_collection; kwargs...)
+function add_collection!(dataset::Dataset, sample_collection::AbstractSampleCollection; kwargs...)
+    return dataset.object.add_collection(sample_collection; kwargs...)
+end
 
 merge_samples!(dataset::Dataset, samples::Vector{Sample}; kwargs...) = dataset.object.merge_samples(samples; kwargs...)
 
-delete_samples!(dataset::Dataset, samples_or_ids::Union{Vector{Sample}, Vector{AbstractString}}) = dataset.object.delete_samples(samples_or_ids)
+function delete_samples!(dataset::Dataset, samples_or_ids::Union{Vector{Sample}, Vector{AbstractString}})
+    return dataset.object.delete_samples(samples_or_ids)
+end
 
 delete_frames!(dataset::Dataset, frames_or_ids::Union{Vector{Frame}, Vector{AbstractString}}) = dataset.object.delete_frames(frames_or_ids)
 
@@ -175,7 +197,9 @@ save_view!(dataset::Dataset, name::AbstractString, view::DatasetView; kwargs...)
 
 get_saved_view_info(dataset::Dataset, name::AbstractString) = dataset.object.get_saved_view_info(name)
 
-update_saved_view_info!(dataset::Dataset, name::AbstractString, info::Dict{AbstractString, Any}) = dataset.object.update_saved_view_info(name, info)
+function update_saved_view_info!(dataset::Dataset, name::AbstractString, info::Dict{AbstractString, Any})
+    return dataset.object.update_saved_view_info(name, info)
+end
 
 load_saved_view(dataset::Dataset, name::AbstractString) = dataset.object.load_saved_view(name)
 
@@ -201,9 +225,13 @@ add_archive!(dataset::Dataset, archive_path::AbstractString; kwargs...) = datase
 
 merge_archive!(dataset::Dataset, archive_path::AbstractString; kwargs...) = dataset.object.merge_archive(archive_path; kwargs...)
 
-add_importer!(dataset::Dataset, dataset_importer::AbstractDatasetImporter; kwargs...) = dataset.object.add_importer(dataset_importer; kwargs...)
+function add_importer!(dataset::Dataset, dataset_importer::AbstractDatasetImporter; kwargs...)
+    return dataset.object.add_importer(dataset_importer; kwargs...)
+end
 
-merge_importer!(dataset::Dataset, dataset_importer::AbstractDatasetImporter; kwargs...) = dataset.object.merge_importer(dataset_importer; kwargs...)
+function merge_importer!(dataset::Dataset, dataset_importer::AbstractDatasetImporter; kwargs...)
+    return dataset.object.merge_importer(dataset_importer; kwargs...)
+end
 
 function add_images!(dataset::Dataset, paths_or_samples::Union{Vector{AbstractString}, Vector{Sample}}; kwargs...)
     return dataset.object.add_images(paths_or_samples; kwargs...)
@@ -251,7 +279,9 @@ dataset_from_dir(dataset_dir::AbstractString; kwargs...) = Dataset(fiftyone.Data
 
 dataset_from_archive(archive_path::AbstractString; kwargs...) = Dataset(fiftyone.Dataset.from_archive(archive_path; kwargs...))
 
-dataset_from_importer(dataset_importer::AbstractDatasetImporter; kwargs...) = Dataset(fiftyone.Dataset.from_importer(dataset_importer; kwargs...))
+function dataset_from_importer(dataset_importer::AbstractDatasetImporter; kwargs...)
+    return Dataset(fiftyone.Dataset.from_importer(dataset_importer; kwargs...))
+end
 
 function dataset_from_images(paths_or_samples::Union{Vector{AbstractString}, Vector{Sample}}; kwargs...)
     return Dataset(fiftyone.Dataset.from_images(paths_or_samples; kwargs...))
