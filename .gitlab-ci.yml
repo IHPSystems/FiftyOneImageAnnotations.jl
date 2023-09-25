@@ -15,16 +15,18 @@ include:
 analyze_package:
   variables:
     CI_JULIA_JET_TARGET_DEFINED_MODULES: "true"
+    CI_JULIA_VERSION: "1-bullseye"
 
 analyze_tests:
   variables:
     CI_JULIA_JET_TARGET_DEFINED_MODULES: "true"
+    CI_JULIA_VERSION: "1-bullseye"
 
 test:
   stage: test
   parallel:
     matrix:
-      - CI_JULIA_VERSION: ["1.6", "1"]
+      - CI_JULIA_VERSION: ["1.6-bullseye", "1-bullseye"]
   extends:
     - .julia.setup
     - .julia.test
