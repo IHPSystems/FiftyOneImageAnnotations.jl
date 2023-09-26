@@ -61,7 +61,7 @@ function define_image_annotation_dataset_importer()
         "ImageAnnotationDatasetImporter",
         (fiftyone.utils.data.LabeledImageDatasetImporter,),
         [
-            "__module__" => "__main__",
+            "__module__" => "fiftyone_imageannotations_jl",
             pyfunc(
                 function (self, dataset; shuffle = false, seed = nothing, max_samples = nothing, data_path = nothing)
                     pybuiltins.super(self.__class__, self).__init__(; shuffle = shuffle, seed = seed, max_samples = max_samples)
@@ -148,7 +148,7 @@ function define_image_annotation_dataset_type()
         "ImageAnnotationDatasetType",
         (fiftyone.types.LabeledImageDataset,),
         [
-            "__module__" => "__main__",
+            "__module__" => "fiftyone_imageannotations_jl",
             pyfunc(self -> ImageAnnotationDatasetImporter; name = "get_dataset_importer_cls"),
             pyfunc(self -> error("Not supported"); name = "get_dataset_exporter_cls"),
         ],

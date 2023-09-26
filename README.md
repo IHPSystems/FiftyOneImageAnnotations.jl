@@ -36,6 +36,17 @@ delete_non_persistent_datasets()
 delete_dataset("bar")
 ```
 
+### Importing an ImageAnnotations dataset
+
+```julia
+using FiftyOneImageAnnotations
+using ImageAnnotations
+
+dataset = ImageAnnotationDataSet(AnnotatedImage[]) # ImageAnnotationDataSet{Any}(Any[], AnnotatedImage[])
+
+dataset_from_importer(ImageAnnotationDatasetImporter(dataset)) # FiftyOneImageAnnotations.Dataset
+```
+
 ## Development
 
 Installing FiftyOne can take a long time - [disabling installation of dependencies with CondaPkg](https://cjdoris.github.io/PythonCall.jl/stable/pythoncall/#pythoncall-config) can speed up development significanly (once the dependencies are installed):

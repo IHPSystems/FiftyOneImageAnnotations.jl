@@ -1,4 +1,5 @@
 using FiftyOneImageAnnotations
+using ImageAnnotations
 using Test
 
 @testset "Dataset" begin
@@ -65,6 +66,14 @@ using Test
             delete_non_persistent_datasets()
             @test list_datasets() == ["foo"]
             foo.persistent = false
+        end
+    end
+    @testset "dataset_from_importer" begin
+        setupteardown() do
+            dataset = ImageAnnotationDataSet(AnnotatedImage[])
+            fo_dataset = dataset_from_importer(ImageAnnotationDatasetImporter(dataset); name = "foo")
+            @test fo_dataset.name == "foo"
+            @test isempty(fo_dataset)
         end
     end
 end
