@@ -1,8 +1,5 @@
 export Dataset,
     summary,
-    stats,
-    head,
-    tail,
     view,
     get_field_schema,
     get_frame_field_schema,

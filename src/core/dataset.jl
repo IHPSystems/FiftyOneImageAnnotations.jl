@@ -57,16 +57,6 @@ Base.getindex(dataset::Dataset, s::AbstractString) = Sample(getindex(dataset.obj
 
 summary(dataset::Dataset) = dataset.object.summary()
 
-stats(dataset::Dataset; kwargs...) = dataset.object.stats(; kwargs...)
-
-Base.first(dataset::Dataset) = Sample(dataset.object.first())
-
-Base.last(dataset::Dataset) = Sample(dataset.object.last())
-
-head(dataset::Dataset, num_samples::Int = 3) = Sample.(dataset.object.head(num_samples))
-
-tail(dataset::Dataset, num_samples::Int = 3) = Sample.(dataset.object.tail(num_samples))
-
 view(dataset::Dataset) = DatasetView(dataset.object.view())
 
 get_field_schema(dataset::Dataset; kwargs...) = dataset.object.get_field_schema(; kwargs...)
