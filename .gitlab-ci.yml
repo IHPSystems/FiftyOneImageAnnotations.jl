@@ -12,17 +12,26 @@ include:
     ref: v1.5.0
     file: /jobs/format.gitlab-ci.yaml
 
+.build_essential: &build_essential
+  before_script:
+    - !reference [.gitlab.redirect_git_for_ci_server_host, before_script]
+    - apt-get update
+    - apt-get install -y --no-install-recommends build-essential
+
 analyze_package:
+  << : *build_essential
   variables:
     CI_JULIA_JET_TARGET_DEFINED_MODULES: "true"
     CI_JULIA_VERSION: "1-bullseye"
 
 analyze_tests:
+  << : *build_essential
   variables:
     CI_JULIA_JET_TARGET_DEFINED_MODULES: "true"
     CI_JULIA_VERSION: "1-bullseye"
 
 test:
+  << : *build_essential
   stage: test
   parallel:
     matrix:
