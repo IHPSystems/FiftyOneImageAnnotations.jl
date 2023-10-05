@@ -268,6 +268,53 @@ function ingest_labeled_videos!(dataset::Dataset, samples::AbstractVector{Sample
     return dataset.object.ingest_labeled_videos(samples, sample_parser; kwargs...)
 end
 
+function export_samples(
+    dataset::Dataset,
+    ::Type{ImageAnnotationDatasetExporter};
+    data_path::Union{String, Nothing} = nothing,
+    angular_atol::Real = 0,
+    digits::Int = 10,
+)
+    annotated_images = AnnotatedImage[]
+    for annotated_image in dataset.annotated_images
+        image_file_path = annotated_image.image_file_path
+        image_width = annotated_image.image_width
+        image_height = annotated_image.image_height
+        new_annotations = AbstractImageAnnotation[]
+        if !isnothing(data_path)
+            image_file_path = chopprefix(annotated_image.image_file_path, normpath(data_path))
+        end
+        image_file_path = replace(image_file_path, "\\" => "/")
+        for annotation in annotated_image.annotations
+            label = get_label(annotation)
+            new_label = Label(label.value, label.attributes)
+            confidence = get_confidence(annotation)
+            if annotation isa AbstractBoundingBoxAnnotation
+                rect = get_bounding_box(annotation)
+                origin = rect.origin .* (image_width, image_height)
+                widths = rect.widths .* (image_width, image_height)
+                top_left = Point2{Float64}(origin)
+                push!(new_annotations, BoundingBoxAnnotation(top_left, widths..., new_label))
+            elseif annotation isa AbstractPolygonAnnotation
+                vertices = Point2{Float64}[]
+                for v in get_vertices(annotation)
+                    v = v .* (image_width, image_height)
+                    push!(vertices, v)
+                end
+                polygon_annotation = PolygonAnnotation(vertices, new_label)
+                polygon_annotation = simplify_geometry(polygon_annotation; angular_atol, digits)
+                push!(new_annotations, polygon_annotation)
+            elseif annotation isa AbstractImageAnnotation
+                push!(new_annotations, ImageAnnotation(new_label; confidence))
+            else
+                error("Unknown annotation type: $(typeof(annotation))")
+            end
+        end
+        push!(annotated_images, AnnotatedImage(new_annotations; image_file_path, image_width, image_height))
+    end
+    return ImageAnnotationDataSet(annotated_images)
+end
+
 # Class methods
 
 dataset_from_dir(dataset_dir::AbstractString; kwargs...) = Dataset(fiftyone.Dataset.from_dir(dataset_dir; kwargs...))

@@ -8,7 +8,7 @@ export Classification, Detection, FiftyOneLabel, Polyline, Regression
 
 export Sample
 
-export ImageAnnotationDatasetImporter, ImageAnnotationDatasetType
+export ImageAnnotationDatasetExporter, ImageAnnotationDatasetImporter, ImageAnnotationDatasetType
 
 include(joinpath(@__DIR__, "core", "collections_exports.jl"))
 include(joinpath(@__DIR__, "core", "dataset_exports.jl"))
@@ -17,6 +17,7 @@ include(joinpath(@__DIR__, "PythonExtension", "PythonExtension.jl"))
 
 const fiftyone = PythonExtension.fiftyone
 
+include(joinpath(@__DIR__, "util", "data", "exporters.jl"))
 include(joinpath(@__DIR__, "util", "data", "importers.jl"))
 include(joinpath(@__DIR__, "util", "data", "parsers.jl"))
 

@@ -76,4 +76,14 @@ using Test
             @test isempty(fo_dataset)
         end
     end
+    @testset "export_samples" begin
+        @testset "Empty dataset" begin
+            setupteardown() do
+                dataset = ImageAnnotationDataSet(AnnotatedImage[])
+                fo_dataset = dataset_from_importer(ImageAnnotationDatasetImporter(dataset); name = "foo")
+                exported_dataset = export_samples(fo_dataset, ImageAnnotationDatasetExporter)
+                @test exported_dataset == dataset
+            end
+        end
+    end
 end

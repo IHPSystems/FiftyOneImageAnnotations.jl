@@ -8,7 +8,7 @@ function Base.getproperty(label::FiftyOneLabel, name::Symbol)
     if name == :object
         return getfield(label, name)
     elseif name == :attributes
-        return pyconvert(Dict, label.object.attributes)
+        return pyconvert(Dict{String, Any}, label.object.attributes)
     elseif name == :value
         return pyconvert(String, label.object.label)
     else
@@ -56,7 +56,7 @@ function Detection(label::String, bounding_box::Vector{Float64}; confidence::Uni
     return Detection(fiftyone.core.labels.Detection(; label = label, bounding_box = bounding_box, confidence = confidence))
 end
 
-ImageAnnotations.get_bounding_box(detection::Detection) = Rect2(get_top_left(detection), get_bottom_right(detection))
+ImageAnnotations.get_bounding_box(detection::Detection) = Rect2(get_top_left(detection), get_width(detection), get_height(detection))
 
 ImageAnnotations.get_height(detection::Detection) = detection.bounding_box[4]
 
