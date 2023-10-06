@@ -63,10 +63,25 @@ function define_image_annotation_dataset_importer()
         [
             "__module__" => "fiftyone_imageannotations_jl",
             pyfunc(
-                function (self, dataset; shuffle = false, seed = nothing, max_samples = nothing, data_path = nothing)
+                function (
+                    self,
+                    dataset;
+                    shuffle = false,
+                    seed = nothing,
+                    max_samples = nothing,
+                    data_path = nothing,
+                    bounding_box_annotation_type = fiftyone.core.label.Detection,
+                )
                     pybuiltins.super(self.__class__, self).__init__(; shuffle = shuffle, seed = seed, max_samples = max_samples)
                     self.dataset = dataset
                     self.data_path = data_path
+                    if !(
+                        pyis(bounding_box_annotation_type, fiftyone.core.labels.Detection) ||
+                        pyis(bounding_box_annotation_type, fiftyone.core.labels.Polyline)
+                    )
+                        error("Unsupported bounding_box_annotation_type: $(bounding_box_annotation_type)")
+                    end
+                    self.bounding_box_annotation_type = bounding_box_annotation_type
                     self._iter_annotated_images = pyiter(dataset)
                     return nothing
                 end;
@@ -103,17 +118,28 @@ function define_image_annotation_dataset_importer()
                         labels = pydict()
                         image_size = pyconvert.(Int, (annotated_image.image_width, annotated_image.image_height))
                         annotations = map(a -> pyconvert(Any, a), annotated_image.annotations)
+                        polygonish_annotations = AbstractObjectAnnotation[]
                         bounding_box_annotations = filter(a -> a isa BoundingBoxAnnotation, annotations)
                         if !isempty(bounding_box_annotations)
-                            bounding_box_labels = collect(map(a -> to_label(a, image_size), bounding_box_annotations))
-                            labels["detections"] = fiftyone.core.labels.Detections(; detections = bounding_box_labels)
+                            if pyis(self.bounding_box_annotation_type, fiftyone.core.labels.Detection)
+                                bounding_box_labels = collect(map(a -> to_label(a, image_size), bounding_box_annotations))
+                                labels["detections"] = fiftyone.core.labels.Detections(; detections = bounding_box_labels)
+                            elseif pyis(self.bounding_box_annotation_type, fiftyone.core.labels.Polyline)
+                                converted_annotations = map(
+                                    a -> PolygonAnnotation(get_vertices(a), ImageAnnotations.get_image_annotation(a)),
+                                    bounding_box_annotations,
+                                )
+                                append!(polygonish_annotations, converted_annotations)
+                            end
                         end
                         image_annotations = filter(a -> a isa ImageAnnotation, annotations)
                         if !isempty(image_annotations)
                             classification_labels = collect(map(to_label, image_annotations))
                             labels["classifications"] = fiftyone.core.labels.Classifications(; classifications = classification_labels)
                         end
-                        polygonish_annotations = filter(a -> a isa OrientedBoundingBoxAnnotation || a isa PolygonAnnotation, annotations)
+                        append!(
+                            polygonish_annotations, filter(a -> a isa OrientedBoundingBoxAnnotation || a isa PolygonAnnotation, annotations)
+                        )
                         if !isempty(polygonish_annotations)
                             polygon_labels = collect(map(a -> to_label(a, image_size), polygonish_annotations))
                             labels["polylines"] = fiftyone.core.labels.Polylines(; polylines = polygon_labels)

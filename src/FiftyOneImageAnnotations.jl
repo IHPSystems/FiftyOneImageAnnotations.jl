@@ -17,9 +17,7 @@ include(joinpath(@__DIR__, "PythonExtension", "PythonExtension.jl"))
 
 const fiftyone = PythonExtension.fiftyone
 
-include(joinpath(@__DIR__, "util", "data", "exporters.jl"))
-include(joinpath(@__DIR__, "util", "data", "importers.jl"))
-include(joinpath(@__DIR__, "util", "data", "parsers.jl"))
+include(joinpath(@__DIR__, "types.jl"))
 
 include(joinpath(@__DIR__, "core", "expressions.jl"))
 include(joinpath(@__DIR__, "core", "collections.jl"))
@@ -30,5 +28,7 @@ include(joinpath(@__DIR__, "core", "labels.jl"))
 include(joinpath(@__DIR__, "core", "sample.jl"))
 include(joinpath(@__DIR__, "core", "view.jl"))
 include(joinpath(@__DIR__, "core", "dataset.jl"))
+
+include(joinpath(@__DIR__, "util", "data", "importers.jl"))
 
 end

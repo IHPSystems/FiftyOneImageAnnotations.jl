@@ -1,5 +1,7 @@
 using FiftyOneImageAnnotations
+using GeometryBasics
 using ImageAnnotations
+using PythonCall
 using Test
 
 @testset "Dataset" begin
@@ -69,11 +71,45 @@ using Test
         end
     end
     @testset "dataset_from_importer" begin
-        setupteardown() do
-            dataset = ImageAnnotationDataSet(AnnotatedImage[])
-            fo_dataset = dataset_from_importer(ImageAnnotationDatasetImporter(dataset); name = "foo")
-            @test fo_dataset.name == "foo"
-            @test isempty(fo_dataset)
+        @testset "Empty dataset" begin
+            setupteardown() do
+                dataset = ImageAnnotationDataSet(AnnotatedImage[])
+                fo_dataset = dataset_from_importer(ImageAnnotationDatasetImporter(dataset); name = "foo")
+                @test fo_dataset.name == "foo"
+                @test isempty(fo_dataset)
+            end
+        end
+        @testset "BoundingBoxAnnotation imported as Detection" begin
+            setupteardown() do
+                image_size = 2
+                dataset = ImageAnnotationDataSet([
+                    AnnotatedImage(
+                        BoundingBoxAnnotation(Point2(0.1, 0.2), 0.3, 0.4, Label("test"));
+                        image_width = image_size,
+                        image_height = image_size,
+                    ),
+                ])
+                fo_dataset = dataset_from_importer(ImageAnnotationDatasetImporter(dataset; bounding_box_annotation_type = Detection))
+                @test length(fo_dataset) == 1
+                sample = first(fo_dataset)
+                @test pyis(pytype(sample.object["detections"]), FiftyOneImageAnnotations.fiftyone.core.labels.Detections)
+            end
+        end
+        @testset "BoundingBoxAnnotation imported as Polyline" begin
+            setupteardown() do
+                image_size = 2
+                dataset = ImageAnnotationDataSet([
+                    AnnotatedImage(
+                        BoundingBoxAnnotation(Point2(0.1, 0.2), 0.3, 0.4, Label("test"));
+                        image_width = image_size,
+                        image_height = image_size,
+                    ),
+                ])
+                fo_dataset = dataset_from_importer(ImageAnnotationDatasetImporter(dataset; bounding_box_annotation_type = Polyline))
+                @test length(fo_dataset) == 1
+                sample = first(fo_dataset)
+                @test pyis(pytype(sample.object["polylines"]), FiftyOneImageAnnotations.fiftyone.core.labels.Polylines)
+            end
         end
     end
     @testset "export_samples" begin
