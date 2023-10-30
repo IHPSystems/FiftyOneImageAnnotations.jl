@@ -9,6 +9,7 @@ ImageAnnotations = "76a96b56-f16f-11e8-3761-3967fdcf98d3"
 PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 
 [compat]
+GeometryBasics = "0.4"
 ImageAnnotations = "0.6"
 PythonCall = "0.9"
 julia = "1"
