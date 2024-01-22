@@ -12,6 +12,7 @@ PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 GeometryBasics = "0.4"
 ImageAnnotations = "0.6"
 PythonCall = "0.9"
+Test = "1"
 julia = "1"
 
 [extras]
