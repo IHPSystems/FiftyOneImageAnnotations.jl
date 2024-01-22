@@ -120,7 +120,7 @@ end
 ImageAnnotations.get_label(label::Union{Classification, Detection, Polyline}) = FiftyOneLabel(label.object)
 
 function ImageAnnotations.get_confidence(label::Union{Classification, Detection, Polyline})
-    return pyis(label.object.confidence, pybuiltins.None) ? nothing : label.object.confidence
+    return pyis(label.object.confidence, pybuiltins.None) ? nothing : pyconvert(Float64, label.object.confidence)
 end
 
 ImageAnnotations.get_annotator_name(::Union{Classification, Detection, Polyline}) = nothing

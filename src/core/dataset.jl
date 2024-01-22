@@ -282,26 +282,27 @@ function export_samples(
         image_height = annotated_image.image_height
         new_annotations = AbstractImageAnnotation[]
         if !isnothing(data_path)
-            image_file_path = chopprefix(annotated_image.image_file_path, normpath(data_path))
+            image_file_path = chopprefix(annotated_image.image_file_path, normpath(data_path) * Base.Filesystem.path_separator)
         end
         image_file_path = replace(image_file_path, "\\" => "/")
         for annotation in annotated_image.annotations
             label = get_label(annotation)
             new_label = Label(label.value, label.attributes)
             confidence = get_confidence(annotation)
+            confidence = isnothing(confidence) ? nothing : Float32(confidence)
             if annotation isa AbstractBoundingBoxAnnotation
                 rect = get_bounding_box(annotation)
                 origin = rect.origin .* (image_width, image_height)
                 widths = rect.widths .* (image_width, image_height)
                 top_left = Point2{Float64}(origin)
-                push!(new_annotations, BoundingBoxAnnotation(top_left, widths..., new_label))
+                push!(new_annotations, BoundingBoxAnnotation(top_left, widths..., new_label; confidence))
             elseif annotation isa AbstractPolygonAnnotation
                 vertices = Point2{Float64}[]
                 for v in get_vertices(annotation)
                     v = v .* (image_width, image_height)
                     push!(vertices, v)
                 end
-                polygon_annotation = PolygonAnnotation(vertices, new_label)
+                polygon_annotation = PolygonAnnotation(vertices, new_label; confidence)
                 polygon_annotation = simplify_geometry(polygon_annotation; angular_atol, digits)
                 push!(new_annotations, polygon_annotation)
             elseif annotation isa AbstractImageAnnotation

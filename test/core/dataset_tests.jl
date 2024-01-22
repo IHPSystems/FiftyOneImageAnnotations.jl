@@ -121,5 +121,22 @@ using Test
                 @test exported_dataset == dataset
             end
         end
+        @testset "BoundingBoxAnnotation with confidence" begin
+            setupteardown() do
+                image_size = 2
+                data_path = pwd()
+                dataset = ImageAnnotationDataSet([
+                    AnnotatedImage(
+                        BoundingBoxAnnotation(Point2(0.1, 0.2), 0.3, 0.4, Label("test"); confidence = 0.6f0);
+                        image_file_path = "img.jpeg",
+                        image_width = image_size,
+                        image_height = image_size,
+                    ),
+                ])
+                fo_dataset = dataset_from_importer(ImageAnnotationDatasetImporter(dataset; data_path))
+                exported_dataset = export_samples(fo_dataset, ImageAnnotationDatasetExporter; data_path)
+                @test exported_dataset == dataset
+            end
+        end
     end
 end
