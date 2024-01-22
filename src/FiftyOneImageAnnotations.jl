@@ -31,4 +31,6 @@ include(joinpath(@__DIR__, "core", "dataset.jl"))
 
 include(joinpath(@__DIR__, "util", "data", "importers.jl"))
 
+include(joinpath(@__DIR__, "compat.jl"))
+
 end
